@@ -27,8 +27,33 @@ def server():
     print ("[S]: Got a connection request from a client at {}".format(addr))
 
     data_from_client = csockid.recv(200)
-    print(data_from_client.decode('utf-8'))
+    query = data_from_client.decode('utf-8')
+    values = query.split('\n')
+
+
+    #Read dnsrs data
+    #lookup
+    data = open('PROJI-DNSRS.txt') 
+    content_array = []
+    for line in data:
+        content_array.append(line.split(' '))
+
+
+    #Data look up time ^0^
+    data_to_send_client = []
+    for i in range(0, len(values)):
+        for j in range(0, len(content_array)):
+            if values[i] == content_array[j][0]:
+                word = content_array[j][0] + " " + content_array[j][1] + " " + content_array[j][2]
+                data_to_send_client.append(word)
     
+
+    #print("This is out:", data_to_send_client)
+    outward = data_to_send_client[0] + '\n'
+    for i in range(1, len(data_to_send_client)):
+        outward = outward + data_to_send_client[i] + '\n'
+    #print("This is outward:" ,outward)
+
     """
     #recieve message from client
     look_up = []
