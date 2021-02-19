@@ -4,6 +4,7 @@ import random
 
 import socket
 import sys
+import re
 
 def server():
     try:
@@ -14,9 +15,9 @@ def server():
         exit()
 
     #read in port num from cmd line
-    rsPort = int(sys.argv[1])
+    tsPort = int(sys.argv[1])
 
-    server_binding = ('', rsPort)
+    server_binding = ('', tsPort)
     ss.bind(server_binding)
     ss.listen(1)
     host = socket.gethostname()
@@ -31,56 +32,36 @@ def server():
     values = query.split('\n')
     #print(values)
 
-
     #Read dnsrs data store in dictionary
     content_array = []
-    data = open('PROJI-DNSRS.txt') 
+    data = open('PROJI-DNSTS.txt') 
     for line in data:
         temp = line.split(' ')
         content_array.append(temp)
 
     #print(content_array)
-
     #Data look up time ^0^
     data_to_send_client = []
+    
+    
     for i in range(0, len(values)):
         for j in range(0, len(content_array)):
-            if values[i] == content_array[j][0]:
+            if values[i] in content_array[j][0]:
                 word = content_array[j][0] + " " + content_array[j][1] + " " + content_array[j][2]
-                data_to_send_client.append(word)
-                break
+                data_to_send_client.append(word)             
             else:
-                if len(values[i]) < 1:
-                    break
-                if values[i] != content_array[j][0] and content_array[j][2] == 'NS\n':
-                    #print(values[i])
-                    #print(content_array[j][0])
-                    tsHost = content_array[j][0] + " " + content_array[j][1] + " " + content_array[j][2]
-                    #print(tsHost)
-                    word2 = values[i] +" " + tsHost
-                    data_to_send_client.append(word2)
+               if values[i] not in content_array[j][0] and values[i] is '':
+                    data_to_send_client.append(values[i])
+            
 
-    #print(data_to_send_client)
 
+                
+                
+    print(data_to_send_client)
     #print("This is out:", data_to_send_client)
     outward = data_to_send_client[0] + '\n'
     for i in range(1, len(data_to_send_client)):
         outward = outward + data_to_send_client[i] + '\n'
-    #print("This is outward:" ,outward)
+    print("This is outward:" ,outward)
     csockid.send(outward.encode('utf-8'))
-
-    
-
-
-         
-    
-    
-   
-        
-
-    # send a intro message to the client.  
-    #msg = "Welcome to CS 352!"
-    #csockid.send(msg.encode('utf-8'))
-
-
 server()
