@@ -67,7 +67,7 @@ def client():
     to_ts = '\n'.join(fin_arr)
     #print(to_ts)
     cs.close()
-
+    arr_ts = []
     if to_ts != '':
         sc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # connect to the server on machine to ts
@@ -78,14 +78,18 @@ def client():
         # Receive data from the server
         data_from_ts=sc.recv(1024)
         resp = data_from_ts.decode('utf-8')
-        rec = resp.split('\n')
-        arr_ts = []
-        print(rec)
-
+        rec = resp.split('\n')        
+        #print(rec)
         for i in range(0,len(rec)):
             if len(rec[i]) > 1:
                 arr_ts.append(rec[i].split(' '))
-        print(arr_ts)
+        #print(arr_ts)
+  
+    #write to file
+    for i in range(0, len(arr_ts)):
+        tempword = ' '.join(arr_ts[i]) + '\n'
+        result.write(tempword)
+        
         """
         send_to_tsServer = []
         for i in range(0, len(arr_ts)):
@@ -93,8 +97,8 @@ def client():
                 word_ts = arr_ts[i][0] + " " + arr_ts[i][1] + " " + arr_ts[i][2] + "\n"
                 result.write(word_ts)
           """
-        
-        result.close()
+    
+    result.close()
 
         
 

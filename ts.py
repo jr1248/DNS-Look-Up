@@ -78,7 +78,7 @@ def server():
         outward = outward + temp1 + '\n'
         #print('temp out: ', outward)
     outward = outward + errorout
-    print("This is outward:\n" ,outward)
+    #print("This is outward:\n" ,outward)
     csockid.send(outward.encode('utf-8'))
     
 server()
