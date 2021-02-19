@@ -23,8 +23,13 @@ def server():
     print("[S]: Server host name is {}".format(host))
     localhost_ip = (socket.gethostbyname(host))
     print("[S]: Server IP address is {}".format(localhost_ip))
-    
+    csockid, addr = ss.accept()
+    print ("[S]: Got a connection request from a client at {}".format(addr))
 
+    data_from_client = csockid.recv(200)
+    print(data_from_client.decode('utf-8'))
+    
+    """
     #recieve message from client
     look_up = []
     while True:
@@ -60,6 +65,7 @@ def server():
     #for i in range(1, len(out)):
         #outward = outward + out[i] + '\n'
     #print("This is outward:" ,outward)
+    """
     
 
 

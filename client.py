@@ -24,14 +24,19 @@ def client():
     cs.connect(server_binding)
 
     #Read HNS file and send data over
+    data_to_sendTo_rs = ' '
     data = open('PROJI-HNS.txt')
-    line = data.readline().strip()
-    lineL = line.lower()
-    cs.sendall(lineL.encode('utf-8'))
+    info = data.read()
+    infoL = info.lower()
+    cs.sendall(infoL.encode('utf-8'))
+    #print(info)
+    """
     while line != '':
         line = data.readline().strip()
         lineL = line.lower()
-        cs.sendall(lineL.encode('utf-8'))
+        data_to_sendTo_rs = lineL + '\n'
+    print(data_to_sendTo_rs)
+    """
         
 
 
