@@ -30,33 +30,46 @@ def server():
     data_from_client = csockid.recv(1024)
     query = data_from_client.decode('utf-8')
     values = query.split('\n')
-    #print(values)
+    #print('INITIAL VALUES TABLE: ', values)
 
-    #Read dnsrs data store in dictionary
+    #Read dnsrs data store in 2D array
     content_array = []
     data = open('PROJI-DNSTS.txt') 
     for line in data:
         temp = line.split(' ')
         content_array.append(temp)
-
-    #print(content_array)
+        
+    
+    #print("content array: ", content_array)
     #Data look up time ^0^
     data_to_send_client = []
-    
-    
-    for i in range(0, len(values)):
-        for j in range(0, len(content_array)):
-            if values[i] in content_array[j][0]:
-                word = content_array[j][0] + " " + content_array[j][1] + " " + content_array[j][2]
-                data_to_send_client.append(word)             
+    error = [] 
+    #If there, then append to data to send to client
+    for j in range(0, len(content_array)):
+        for i in range(0, len(values)):
+            if values[i] not in content_array[j]:
+                error.append(values[i])
+                print('INITIAL ERROR, ', error)
+                print('DNS: ', content_array[j][0], '\nVALUE: ', values[i])
             else:
-               if values[i] not in content_array[j][0] and values[i] is '':
-                    data_to_send_client.append(values[i])
-            
-
-
+               print('print good values: ', values[i])
+               good = content_array[j]
+               data_to_send_client.append(good)
+               print("output array: ", data_to_send_client)
                 
-                
+            print("end for1")
+        print("end for2")
+    print("end for3")
+ 
+    
+ 
+    error = list(dict.fromkeys(error))
+    for i in range(0, len(error)):
+        error[i] = error[i] + " " + "-" + " " + "ERROR:HOST NOT FOUND"
+    print('bad list', error)
+      
+              
+    '''            
     print(data_to_send_client)
     #print("This is out:", data_to_send_client)
     outward = data_to_send_client[0] + '\n'
@@ -64,4 +77,5 @@ def server():
         outward = outward + data_to_send_client[i] + '\n'
     print("This is outward:" ,outward)
     csockid.send(outward.encode('utf-8'))
+    '''
 server()
