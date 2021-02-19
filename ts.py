@@ -57,28 +57,28 @@ def server():
                #print('print good values: ', values[i])
                good = content_array[j]
                goodi = i
-               data_to_send_client.append(good)
-               
- 
+               data_to_send_client.append(good) 
     values.pop(goodi)    
+    #get all errors
     for i in range(0, len(values)):
-        error.append(values[i])
-      
- 
+        error.append(values[i]) 
     error = list(dict.fromkeys(error))
-    errorout = error[0] + " " + "-" + " " + "ERROR:HOST NOT FOUND\n"
+    #construct error message
+    errorout = ""
     for i in range(0, len(error)):
-        errorout = errorout + error[i] + " " + "-" + " " + "ERROR:HOST NOT FOUND"
-    print('bad list', errorout)       
+        errorout = errorout + error[i] + " " + "-" + " " + "ERROR:HOST NOT FOUND\n"
+    #print('bad list', errorout)       
                 
-    print(data_to_send_client)
+    #print(data_to_send_client)
     #print("This is out:", data_to_send_client)
-    inistring = data_to_send_client[0]
-    outward = inistring + '\n'
-    for i in range(1, len(data_to_send_client)):
-        outward = outward + data_to_send_client[i] + '\n'
-    #outward = outward + errorout
-    print("This is outward:" ,outward)
+    outward = ""
+    for i in range(0, len(data_to_send_client)):
+        temp1 = ' '.join(data_to_send_client[i])
+       #print('temp1: ', temp1)
+        outward = outward + temp1 + '\n'
+        #print('temp out: ', outward)
+    outward = outward + errorout
+    print("This is outward:\n" ,outward)
     csockid.send(outward.encode('utf-8'))
     
 server()
