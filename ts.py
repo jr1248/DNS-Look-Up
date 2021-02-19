@@ -44,38 +44,41 @@ def server():
     #Data look up time ^0^
     data_to_send_client = []
     error = [] 
+    goodi=0
     #If there, then append to data to send to client
     for j in range(0, len(content_array)):
         for i in range(0, len(values)):
             if values[i] not in content_array[j]:
-                error.append(values[i])
-                print('INITIAL ERROR, ', error)
-                print('DNS: ', content_array[j][0], '\nVALUE: ', values[i])
+                #error.append(values[i])
+                #print('INITIAL ERROR, ', error)
+                #print('DNS: ', content_array[j][0], '\nVALUE: ', values[i])
+                continue
             else:
-               print('print good values: ', values[i])
+               #print('print good values: ', values[i])
                good = content_array[j]
+               goodi = i
                data_to_send_client.append(good)
-               print("output array: ", data_to_send_client)
-                
-            print("end for1")
-        print("end for2")
-    print("end for3")
+               
  
-    
+    values.pop(goodi)    
+    for i in range(0, len(values)):
+        error.append(values[i])
+      
  
     error = list(dict.fromkeys(error))
+    errorout = error[0] + " " + "-" + " " + "ERROR:HOST NOT FOUND\n"
     for i in range(0, len(error)):
-        error[i] = error[i] + " " + "-" + " " + "ERROR:HOST NOT FOUND"
-    print('bad list', error)
-      
-              
-    '''            
+        errorout = errorout + error[i] + " " + "-" + " " + "ERROR:HOST NOT FOUND"
+    print('bad list', errorout)       
+                
     print(data_to_send_client)
     #print("This is out:", data_to_send_client)
-    outward = data_to_send_client[0] + '\n'
+    inistring = data_to_send_client[0]
+    outward = inistring + '\n'
     for i in range(1, len(data_to_send_client)):
         outward = outward + data_to_send_client[i] + '\n'
+    #outward = outward + errorout
     print("This is outward:" ,outward)
     csockid.send(outward.encode('utf-8'))
-    '''
+    
 server()
