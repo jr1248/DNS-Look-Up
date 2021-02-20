@@ -1,6 +1,6 @@
 0.	Jennifer Rodriguez	jr1248
 	Audri Yoon		soojinyo
 1. We implemented our recursive client functionality by coding in two sockets on the client so that it could maintain two connections to two servers (RS and TS) to query for information. The two sockets in the client connect to TS and RS. If a website cannot be found in the DNSRS for the RS server, the RS server sends a message back to client. The client then sends the query for URLs not found to the TS server, which then either sends back an error message or the requested information. 
-2. Currently, some strings get printed twice in the RESOLVED.txt file. This is the only error we are aware of. We have not pinpointed why it is printing twice. 
+2. We could not maintain the order of the strings
 3.We initially had issues with both servers listening indefinitely and never closing the connection. Because of this issue, we had to start from scratch. We then had issues sending messages from the client to the servers separately and having the messages remain as separate strings. They were being received on client end as mixed strings, and the combinations of which strings (URL names) were combined or not was inconsistent. Our workaround was to combine the query into one message to send and receive. 
 4.This was both our first project in Python, so first and foremost, we learned a lot about the language. We learned how to program client-server interactions and how to manage two socket connections with recursive client functionality. 
